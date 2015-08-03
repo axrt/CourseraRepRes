@@ -1,0 +1,263 @@
+---
+title: "Lecture 1"
+output: html_document
+---
+#Replication
+
+The ultimate standard for strengthening scientific evidence is **replication** of findings and conducting studies with independedt
+
+* investigators
+* data
+* analytical method
+* laboratories
+* instruments
+
+Replication is particularly imprtant in studies that can impact broad policy or regulation decisions
+
+##What is wrong with replication?
+
+* no time, opportunistic
+* no money
+* unique (mostly)
+
+Reproducible research: Make analytic data and code avalibale so that others my reproduce findings
+
+##Why do we need reproducible research?
+
+* new technologies increasing data colletciton throughput; data are more complex and extremely high dimensional
+* existing databases can be merged into new "megadatabases"
+* computing power has increased greately, allowing for more sophisticated analysis
+* for every field **X** ther is a field **computational X**
+
+#Research Pipeline
+
+* science issue on data
+* thr duke saga
+* evolution of translational omics
+
+In the discovery/Test Validation stage of omics-based tests:
+
+* data and metadata used to develop tests should be made publically available
+* The computer code and fully specified computational procedureds used for development of the candidate omics-based test should be made sustaniably avaliable
+* ideally, the computer code that is released will ancompass all the steps of computational analysis, including all data preprocessing steps, that have been described in this chapter. all aspects of the analysis need to be transparently reported.
+
+##What do we need for the research to be reproducible?
+
+* analytic data are avaliable
+* analytic code are avalibale
+* documentation of code and data
+* standard meand of distribution
+
+##Who are the players?
+
+1. Authors
+  * Want to make their research reproducible
+  * Want tools for RR to make their lives easier (or at least not much harder)
+2. Readers
+  * Want to reproduce (and perhaps expand upon) interesting findings
+  * Want tools for RR to make their lives easier
+  
+##Challenges
+
+* Authors must undertake considerable effort to put data/results on the web (may not have resoursece like web server)
+* Readers must download data/results individually and piece together which data go and with which code sections etc.
+* Readers may not have the same resources as authors
+* Few tools to help readers and authors, thought the toolbox is growing
+
+##In reality..
+
+1. Authors
+  * just put stuff on the web
+  * journal supplementary materials
+  * there are some "central" databases for various fields
+2. Researchers
+  * just download the data and (try to) figure out how it worked
+  * Piece together the software and run it
+  
+#Literate Statistical Programming
+
+* An article is a stream of text and code
+* Analysis code is divided into text and code "chunks"
+* Each code chink loads data and computes results
+* Presentation code formats results in tables, figures, etc
+* Article text explains what is going on
+* Literate programs can be **weaved** to produce human-readable documents and **tangled** to produce machine-readable documents
+
+##LSP requires
+
+1. A documenation language (human readable)
+2. A programming language (machine readable)
+
+* [Sweave](http://leisch.userweb.mwn.de/Sweave/) uses LATEX as documentation and R as programming language
+* Sweace was developed by Friedrich Leisch (member of R Core) and is maintained by R core
+
+##Sweave Limitations
+
+* Sweave has many, it is focused primarily on LATEX, a difficult to learn markup language used only be weirdos
+* Lacks feactures like caching, multiple plots per chunk, mixing programming languages and many other thechnical items
+* Not frequently updated of very actively developed
+
+##[Knitr](http://yihui.name/knitr/)
+
+Was develped by Yihui Xie (while a graduate student in statistics at iowa State)
+
+
+#Structure of Data Analysis
+
+* Define the question
+* Define the ideal data set
+* Determine what data you can access
+* Obtain the data
+* Clean the data
+
+##Defining a question
+
+1. Statistical methods development
+2. Danger zone
+3. Proper data analysis
+
+##Define the ideal dataset
+
+* Descriptive - a whole population
+* Exploratory - a random sample with many variables measured
+* Inferential - the right pupulation, randomly sampled
+* Causal - data from a randomized study
+* Mechanistic - data about all components of the system
+
+##Determine what data you can actually access
+
+* Sometimes you can not find the data free ont the web
+* Other times you may need tho buy the data
+* De sore to respect the terms and conditions of use
+* If the data don't exist, you may need to generate it yourself
+
+##Obtain the data
+
+* try to obtain the raw data
+* be sure to reference the source
+* polite emails go a long way
+* if you will load the data from an internet source, record the url and time accessed 
+
+##Clean the data
+
+* Raw data often needs to be processed
+* If it is pre-processed, make sure you understand how
+* Understand the source of the data (census, sample, convenience sample, etc)
+* May need reformatiing, subsampling - record these steps
+* **Determine if the data are good enough** - if not, quit or change the data
+
+#Next steps in data analysis 
+
+* Exploratory data analysis
+* Statistical prediction/modelling
+* Interpret results
+* Challenge results
+* Synthesisze/write up results
+* Create reproducible code
+
+##Exploratory data analysis
+
+* look at summaries of the data
+* check for missing data
+* create exploratory plots
+* perform exploratory analyses (e.g., clustering)
+
+##Statistical prediction/modeling
+
+* should be infirmed by the results of your exploratory analysis
+* exact methods depend on the question of interest
+* transformations/processing should be accounted fro when necessary
+* measures of uncertainty should be reported
+
+##Interpret results
+
+* Use the appropriate language
+  * describes
+  * correlates with/associtated with
+  * leads to/cuases
+  * predicts
+* Give and explanation
+* Interpret coefficients
+* Interpret measures of uncertainty
+
+##Challenge the results
+
+* Challenge all steps:
+  * Question
+  * Data source
+  * Processing
+  * Analysis
+  * Conclusions
+* Challenge measures of uncertainty
+* Challenge choices of terms to include in models
+* Think of potential alternative analysis
+
+##Synthesize/wirte-up results
+
+* Lead with the question
+* Summarize the analysis, include it
+  * if it is needed for the story
+  * if it is needed to address a challenge
+* Order analyses to the story, rather than chronologically
+* Include "pretty" figures to contribute to the story
+
+#Organizing a Data Analysis
+
+##Data analysis files
+
+* Data
+  * raw data
+  * processed data
+* Figures
+  * Exploratory figures
+  * Final figures
+* R code
+  * raw/unused scripts
+  * Final scrips
+  * R Markdown files
+* Text
+  * README files
+  * Text of analysis/report
+
+##Raw data
+
+* Should be stored in your analysis folder
+* If accessed from the web, include url, description, and date accessed in README
+
+##Processed data
+
+* Processed data should be named so it is easy to see which script generated the data
+* The processing script - processed data mapping should occur in the README
+* Processed data dhould be **tidy**
+
+##Exploratory figures
+ 
+* Figures made during the course of your analysis, not necesserily part of your final report.
+* They do not need to be "pretty"
+
+##Final figures
+
+* Usually a small subset of the original figures
+* Axes/colors set to make the figure clear
+* Possibly multiple panels
+
+##Raw scripts
+
+* May be less commented (comments helo you later)
+* May be multiple versions
+* May includer analyses that are later discarded
+
+##Final scripts
+
+* Cleanly commented
+  * Small comments liberally what, when, why, how
+  * Bigger commented blocks for whole sections
+* Include processing details
+* Only analyses that appear in the final write-up
+
+
+
+
+
+
+
