@@ -255,9 +255,25 @@ Was develped by Yihui Xie (while a graduate student in statistics at iowa State)
 * Include processing details
 * Only analyses that appear in the final write-up
 
+##R Markdown files
 
+* Can be used to generate reproducible reports
+* Text and R code are integrated
+* Very easy to create in RStudio
 
+##Readme files
 
+* Usefull to explain wht is going on
+
+##Text of the document
+
+* It should include a title, introduction (motivation), methods (statistics that you used). results (including measures of uncertainty), and conclusions (including potential problems)
+
+* It should tell a story
+* *It should not include every analysis you ever performed*
+* References should be included for statistics methods
+
+[**project template package**](http://projecttemplate.net/) <- look into that
 
 
 
