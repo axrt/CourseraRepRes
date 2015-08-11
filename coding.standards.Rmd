@@ -1,0 +1,72 @@
+---
+title: "Coding Standards"
+output: html_document
+---
+
+1. Always use a plain text file!
+2. Indent code!
+3. Limit text by 80 columns of text
+
+In RStudio: Preferences -> code -> tab width
+then CMD+A -> CMD+I
+Best use 8 indent spaces
+
+4. Limit the length of individual functions. Limit to one single action.
+
+#Markdown
+
+* *italics*
+
+* ##Heading 2
+
+* ###Heading 3
+
+- first item
+- second item
+- third item
+
+1. first item
+2. second item
+3. third item
+
+The numbers in a numbered list do not have to nessesserally be in order!
+
+[link to google](www.google.com)
+
+This is an example of a reference [1]
+
+New lines in text  
+require double space at the end of the line
+
+[1]: www.google.com "google"
+
+#R Markdown
+
+* Integration of R in Markdown (duh!).  
+* Created by George Gruber and Aaron Swarz  
+* A simplified version of markjup languages
+* Allows one to focus on writing rather than formatting
+* Miniam intuitive formatting elements
+* Easily converted to plain HTML
+* Allows one to create "live" code with R
+* R code is processed during the evaluation of the markdown
+* Results from R (plots and other stuff) get inserted into the HTML  
+Hence, R Markdown is a **literate statistical programming tool**  
+`.Rmd` extension  
+One major thing: **if the document exits, it means that the underlying R code has to have worked**!
+
+* R Markdown can be converted to html via `knitr`
+* Can also be converted to HTML with `markdown` package
+* Can be easily managed in RStudio (but not required)
+* `slidify` package allows to create slides from R code
+
+```{r install slidify}
+if(!require("slidify")){
+  if(!require("devtools")){
+    install.packages("devtools")
+    library("devtools")
+  }
+  install_github('slidify', 'ramnathv')
+  library("slidify")
+}
+```
