@@ -144,6 +144,23 @@ Maximum number of steps per 5 minute interval: **206**, which corresponds to the
 
 ## Imputing missing values
 
+Summarize the data to see how many data points are missing:
+
+
+```r
+summary.na<-mov.data %>% group_by(is.na(steps)) %>% summarize(num.nas=n())
+summary.na
+```
+
+```
+## Source: local data frame [2 x 2]
+## 
+##   is.na(steps) num.nas
+## 1        FALSE   15264
+## 2         TRUE    2304
+```
+
+Number of missing steps data points (the `NA`s in the data table): **2304**
 
 
 ## Are there differences in activity patterns between weekdays and weekends?

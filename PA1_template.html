@@ -156,6 +156,15 @@ summary.mean %&gt;% ggplot(data=., mapping=aes(x=interval, y=mean.steps))+geom_l
 </div>
 <div id="imputing-missing-values" class="section level2">
 <h2>Imputing missing values</h2>
+<p>Summarize the data to see how many data points are missing:</p>
+<pre class="r"><code>summary.na&lt;-mov.data %&gt;% group_by(is.na(steps)) %&gt;% summarize(num.nas=n())
+summary.na</code></pre>
+<pre><code>## Source: local data frame [2 x 2]
+## 
+##   is.na(steps) num.nas
+## 1        FALSE   15264
+## 2         TRUE    2304</code></pre>
+<p>Number of missing steps data points (the <code>NA</code>s in the data table): <strong>2304</strong></p>
 </div>
 <div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>

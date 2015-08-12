@@ -9,6 +9,10 @@ output:
 Loading libraries:
 
 ```{r loading libraries}
+if(!require("data.table")){
+  install.packages("data.table")
+  library("data.table")
+}
 if(!require("plyr")){
   install.packages("plyr")
   library("plyr")
@@ -77,6 +81,16 @@ Maximum number of steps per 5 minute interval: **`r as.integer(max(summary.mean$
 
 ## Imputing missing values
 
+Summarize the data to see how many data points are missing:
 
+```{r calculating number of NAs}
+summary.na<-mov.data %>% group_by(is.na(steps)) %>% summarize(num.nas=n())
+summary.na
+```
 
+Number of missing steps data points (the `NA`s in the data table): **`r summary.na[2,2]`**
+
+```{r imputing data}
+mov.data.complete<- merge(x = mov.data, y = summary.mean, by="interval")
+```
 ## Are there differences in activity patterns between weekdays and weekends?
