@@ -131,6 +131,17 @@ One major thing: <strong>if the document exits, it means that the underlying R c
   library(&quot;slidify&quot;)
 }</code></pre>
 <pre><code>## Loading required package: slidify</code></pre>
+<pre><code>## Warning in library(package, lib.loc = lib.loc, character.only = TRUE,
+## logical.return = TRUE, : there is no package called 'slidify'</code></pre>
+<pre><code>## Loading required package: devtools</code></pre>
+<pre><code>## Warning: Username parameter is deprecated. Please use ramnathv/slidify</code></pre>
+<pre><code>## Downloading github repo ramnathv/slidify@master
+## Installing slidify
+## '/usr/lib/R/bin/R' --no-site-file --no-environ --no-save --no-restore  \
+##   CMD INSTALL  \
+##   '/tmp/RtmpjaMlPe/devtools76721ed510ed/ramnathv-slidify-453a86e'  \
+##   --library='/home/alext/R/x86_64-pc-linux-gnu-library/3.1'  \
+##   --install-tests</code></pre>
 </div>
 <div id="knitr" class="section level1">
 <h1>knitr</h1>
@@ -163,7 +174,7 @@ One major thing: <strong>if the document exits, it means that the underlying R c
 #browseURL(&quot;coding.standards.html&quot;)</code></pre>
 <p><code>echo=FALSE</code> makes the code block silent, returning no output.<br />
 To hide the results use <code>results=&quot;hide&quot;</code>.<br />
-Embedding a function: hi, this is a random number from uniform distribution 0.9045037.<br />
+Embedding a function: hi, this is a random number from uniform distribution 0.2824186.<br />
 <code>fig.height=4</code> tells how tall should be an output from <code>plot()</code>. The image will be embedded in the html as a long string of seemingly random letters. Same for the width.</p>
 <pre class="r"><code>if(!require(&quot;xtable&quot;)){
   install.packages(&quot;xtable&quot;)

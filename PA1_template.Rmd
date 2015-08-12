@@ -4,19 +4,76 @@ output:
   html_document:
     keep_md: true
 ---
+##*Quick preparation*
 
+Loading libraries:
+
+```{r loading libraries}
+if(!require("plyr")){
+  install.packages("plyr")
+  library("plyr")
+}
+if(!require("dplyr")){
+  install.packages("dplyr")
+  library("dplyr")
+}
+if(!require("tidyr")){
+  install.packages("tidyr")
+  library("tidyr")
+}
+if(!require("knitr")){
+  install.packages("knitr")
+  library("knitr")
+}
+if(!require("ggplot2")){
+  install.packages("ggplot2")
+  library("ggplot2")
+}
+```
+
+Setting options:
+
+```{r setoptions}
+opts_chunk$set(echo = TRUE,fig.width = 7, fig.height = 7)
+
+```
 
 ## Loading and preprocessing the data
 
+```{r loading data}
+#read the data from the zip archive
+mov.data<-read.csv(file = unz("activity.zip", "activity.csv" ), stringsAsFactors = FALSE, header = TRUE)
+#convert the data to data (duh!) from character
+mov.data<-mov.data %>% transform(.,date=as.Date(x=date))
+#quick sanity check
+head(mov.data)
+#The dataset is stored in a comma-separated-value (CSV) file and there are a total of 17,568 observations in this dataset.
+assertthat::are_equal(nrow(mov.data),17568)
+```
 
 
 ## What is mean total number of steps taken per day?
 
+```{r mean total steps}
+#group by date, remove NAs, plot as histogram
+summary.sum<-mov.data %>% group_by(date) %>% 
+  summarize(sum.steps=sum(steps, na.rm = TRUE))
+summary.sum %>% ggplot(data=., mapping=aes(x=sum.steps)) + geom_histogram(binwidth=1000, fill="steelblue", color="black") +
+  xlab("number of steps per day") + ggtitle("Total Number Of Steps Per Day")
+```
 
+Mean steps per day: **`r as.integer(mean(summary.sum$sum.steps))`**, median is: **`r median(summary.sum$sum.steps)`**
 
 ## What is the average daily activity pattern?
 
+```{r average daily activity pattern}
+#group by interval and get the mean steps per interval
+summary.mean <- mov.data %>% group_by(interval) %>% summarize(mean.steps=mean(steps, na.rm = TRUE))
+summary.mean %>% ggplot(data=., mapping=aes(x=interval, y=mean.steps))+geom_line(color="steelblue") +
+  xlab("interval (5 mins)") + ylab("mean steps per interval")
+```
 
+Maximum number of steps per 5 minute interval: **`r as.integer(max(summary.mean$mean.steps, na.rm=TRUE))`**, which corresponds to the interval: **`r summary.mean[which(summary.mean$mean.steps==max(summary.mean$mean.steps, na.rm=TRUE)),1]`**
 
 ## Imputing missing values
 
