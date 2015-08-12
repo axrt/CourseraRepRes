@@ -113,11 +113,70 @@ require double space at the end of the line</p>
 <li>Easily converted to plain HTML</li>
 <li>Allows one to create “live” code with R</li>
 <li>R code is processed during the evaluation of the markdown</li>
-<li>Results from R (plots and other stuff) get inserted into the HTML<br />
+<li><p>Results from R (plots and other stuff) get inserted into the HTML<br />
 Hence, R Markdown is a <strong>literate statistical programming tool</strong><br />
 <code>.Rmd</code> extension<br />
-One major thing: <strong>if the document exits, it means that the underlying R code has to have worked</strong></li>
+One major thing: <strong>if the document exits, it means that the underlying R code has to have worked</strong>!</p></li>
+<li>R Markdown can be converted to html via <code>knitr</code></li>
+<li>Can also be converted to HTML with <code>markdown</code> package</li>
+<li>Can be easily managed in RStudio (but not required)</li>
+<li><p><code>slidify</code> package allows to create slides from R code</p></li>
 </ul>
+<pre class="r"><code>if(!require(&quot;slidify&quot;)){
+  if(!require(&quot;devtools&quot;)){
+    install.packages(&quot;devtools&quot;)
+    library(&quot;devtools&quot;)
+  }
+  install_github('slidify', 'ramnathv')
+  library(&quot;slidify&quot;)
+}</code></pre>
+<pre><code>## Loading required package: slidify</code></pre>
+</div>
+<div id="knitr" class="section level1">
+<h1>knitr</h1>
+<div id="part-2" class="section level2">
+<h2>Part 2</h2>
+<p><code>knitr</code> is good for</p>
+<ul>
+<li>Manuals</li>
+<li>Short to medium length techinical documents</li>
+<li>Tuturials</li>
+<li>Reports (especially generated regularly)</li>
+<li>Data processing and document summaries</li>
+</ul>
+<p><code>knitr</code> is <strong>not</strong> good for</p>
+<ul>
+<li>Very long research articles</li>
+<li>Complex and time-consuming computations (sometimes you can’t really do much about it)</li>
+<li>Documents that require precise formatting</li>
+</ul>
+</div>
+<div id="part-3" class="section level2">
+<h2>Part 3</h2>
+<p>A more sophisticated way to use <code>knitr</code></p>
+<pre class="r"><code>if(!require(&quot;knitr&quot;)){
+  install.packages(&quot;knitr&quot;)
+  library(&quot;knitr&quot;)
+}</code></pre>
+<pre><code>## Loading required package: knitr</code></pre>
+<pre class="r"><code>#knit2html(&quot;coding.standards.Rmd&quot;)
+#browseURL(&quot;coding.standards.html&quot;)</code></pre>
+<p><code>echo=FALSE</code> makes the code block silent, returning no output.<br />
+To hide the results use <code>results=&quot;hide&quot;</code>.<br />
+Embedding a function: hi, this is a random number from uniform distribution 0.9045037.<br />
+<code>fig.height=4</code> tells how tall should be an output from <code>plot()</code>. The image will be embedded in the html as a long string of seemingly random letters. Same for the width.</p>
+<pre class="r"><code>if(!require(&quot;xtable&quot;)){
+  install.packages(&quot;xtable&quot;)
+  library(&quot;xtable&quot;)
+}</code></pre>
+<pre><code>## Loading required package: xtable</code></pre>
+<p><code>xtable</code> allows to convert r objects to htms or latex directly.</p>
+<p><code>results=&quot;asis&quot;</code></p>
+</div>
+<div id="global-options" class="section level2">
+<h2>Global options</h2>
+<p><code>{r cache=TRUE}</code> is very usefull when the computation takes a long time to process. The results get stored on the disk and loaded later. One caveat is that if one chunk depends on the previous one, the link might brake. Not entirely everyghin is <em>cacheable</em>.</p>
+</div>
 </div>
 
 

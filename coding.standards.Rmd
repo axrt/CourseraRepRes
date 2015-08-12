@@ -70,3 +70,65 @@ if(!require("slidify")){
   library("slidify")
 }
 ```
+
+#knitr
+
+##Part 2
+
+`knitr` is good for
+
+* Manuals
+* Short to medium length techinical documents
+* Tuturials
+* Reports (especially generated regularly)
+* Data processing and document summaries  
+
+`knitr` is **not** good for  
+
+* Very long research articles
+* Complex and time-consuming computations (sometimes you can't really do much about it)
+* Documents that require precise formatting
+
+##Part 3
+
+A more sophisticated way to use `knitr`
+
+```{r}
+if(!require("knitr")){
+  install.packages("knitr")
+  library("knitr")
+}
+#knit2html("coding.standards.Rmd")
+#browseURL("coding.standards.html")
+```
+`echo=FALSE` makes the code block silent, returning no output.  
+To hide the results use `results="hide"`.  
+Embedding a function: `r "hi"`, this is a random number from uniform distribution `r runif(1)`.  
+`fig.height=4` tells how tall should be an output from `plot()`. The image will be embedded in the html as a long 
+string of seemingly random letters. Same for the width.  
+
+```{r xtable}
+if(!require("xtable")){
+  install.packages("xtable")
+  library("xtable")
+}
+```
+
+`xtable` allows to convert r objects to htms or latex directly.
+
+`results="asis"` 
+
+##Global options
+
+```{r setoptions, echo=FALSE}
+opts_chunk$set(echo = FALSE, results = "hide")
+
+```
+
+`{r cache=TRUE}` is very usefull when the computation takes a long time to process. The results get stored on the disk and loaded later. One caveat is that if one chunk depends on the previous one, the link might brake. Not entirely everyghin is *cacheable*.
+
+
+
+
+
+
