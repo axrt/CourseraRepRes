@@ -308,7 +308,7 @@ summary.na
 ## 2         TRUE    2304
 </code></pre>
 
-<p>Number of missing steps data points (the <code>NA</code>s in the data table): <strong>2304</strong></p>
+<p>Number of missing steps data points (the <code>NA</code>s in the data table): <strong>2304</strong>. The suggestion is to simply <strong>replace <code>NA</code> values with the means of the corresponding intervals</strong> (imputing strategy).</p>
 
 <pre><code class="r">#merge by interval with a table with corresponding means,
 mov.data.complete&lt;- merge(x = mov.data, y = summary.mean, by=&quot;interval&quot;) %&gt;% 

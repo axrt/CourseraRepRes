@@ -88,7 +88,7 @@ summary.na<-mov.data %>% group_by(is.na(steps)) %>% summarize(num.nas=n())
 summary.na
 ```
 
-Number of missing steps data points (the `NA`s in the data table): **`r summary.na[2,2]`**
+Number of missing steps data points (the `NA`s in the data table): **`r summary.na[2,2]`**. The suggestion is to simply **replace `NA` values with the means of the corresponding intervals** (imputing strategy).
 
 ```{r imputing data}
 #merge by interval with a table with corresponding means,

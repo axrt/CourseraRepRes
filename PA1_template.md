@@ -122,7 +122,7 @@ summary.na
 ## 2         TRUE    2304
 ```
 
-Number of missing steps data points (the `NA`s in the data table): **2304**
+Number of missing steps data points (the `NA`s in the data table): **2304**. The suggestion is to simply **replace `NA` values with the means of the corresponding intervals** (imputing strategy).
 
 
 ```r
