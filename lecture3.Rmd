@@ -1,0 +1,81 @@
+---
+title: "Lecture 3"
+output: html_document
+---
+
+
+#Distribution and Checklist
+
+##Communicating results
+
+[Getting responces](http://goo.gl/sJDb9V) from busy people
+
+###Article:  
+- Title
+- Abstract
+- Body/Results
+- Supplementary Materials/ the gory details
+- Code/Data/really gory details
+
+###Email  
+- Subject line / Sender info  
+    * At minimum include one
+    * Can you summarize findings in one sentence
+  
+- Email body  
+    * A breif description of the problem, summarize findings and results
+    * If any actions are needed in responce to the presentation, suggest them as concrete as possible
+    * If questions need to be answered, make them preferrable yes or no type
+
+###Attachments  
+- R Markdown
+- `knitr` report
+- Stay very concise, no pages of code
+
+###Links to supplementary material
+- Code, software, data
+- GitHub repo/Project web site
+
+
+## RPubs
+
+Just registered [here](https://rpubs.com/alext).
+
+##Reproducible research checklist  
+**Do**: start with good science  
+
+- Garbage in garbage out
+- Coherent, focused question simplifies many problems
+- Working with good collaborators reenforce good parctices
+- Something that interests motivates good habits
+
+**Don'ts**: do things by hand
+
+- Editing spreadsheets of data to clean them up
+    * Removing outliers
+    * QA/QC
+    * Validating
+- Editing tables or figures
+- Manual downloading of links from websites
+- Moving data around the computer
+- "We are just going to do this once" attitude
+
+Anything that is nessesserally done by hand with no other way to automatize should be thoroughly documented.
+
+**More don'ts**: do things by hand
+
+- Do not use point and click soft
+- GUI tools are totally irreproducible
+- In case there is no way around - try to locate the log if it exists or create one if it does not
+- Stuff like text editors are fine
+
+**More dos**: teach a computer how to do stuff for you
+
+- Teaching a computer almost guarantees reproducibility
+- Use some version control
+    * helps to slow you down
+    * add changes in small chunks
+    * track, tag etc
+    * software like github and bitbucket allow for easy data communication
+    
+
