@@ -161,5 +161,21 @@ Ideally fro me personally that would be going back to the sequencing machine out
 - Results are difficult to replicate and reproduce
 - Complicated analyses can not be fully trusted
 
+###What problems does reproducibility solve?
+
+- Transparency
+- Data Avaliability
+- Software/Methods Avaliability
+- Improved transfer of knowledge
+
+What we do not get is validity/correctness of the analysis
+
+An analysis can be reproducible, but still be wrong
+
+We want to know whether we can trust this analysis
+
+Does requiring reproducibility defer bad analysis?
+
+[Cochrane Summaries](http://www.cochrane.org/evidence)
 
 
