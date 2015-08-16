@@ -89,3 +89,44 @@ Anything that is nessesserally done by hand with no other way to automatize shou
 sessionInfo()
 ```
 
+**More don'ts**: do not save data analysis output (tables, figures, summaries, etc), or export temporary for caching purposes only
+
+- If it is difficult to tell where the files are coming from, the research is not reproducible
+- Save the data with the code that produced that data
+- Temporary files are ok as long as they are clearly documented
+
+**More dos**: it is improtant to set seeds
+
+- Setting seeds makes the sequences of random numbers reproducible: **always set seed!**
+- Important for Monte Carlo and other simulations
+
+```{r set seed}
+set.seed(1000)
+runif(10)
+```
+
+**More dos**: Try to think of the entire pipeline ahead
+
+- Data analysis is a lengthy process
+- Raw data -> processed data -> analysis -> report
+- How you got to the end is as important as the end itself
+- The more of the pipeline you have reproducible, the better off is everyone
+
+#A list of questions to ask yourself:
+
+- Are you doing good science?
+- Was any part of the analysis done by hand?
+    - If so, were those parts *precisely documented*?
+    - Does the documentation match reality?
+- Have you taught the computer to do as much as possible?
+- Have we been using a version control system?
+- Have we saved anything that can't really be tracked back to where it came from?
+- Have we documented the environment?
+- How far back can we go before the analysis pipeline is no longer reproducible?
+
+Ideally fro me personally that would be going back to the sequencing machine output as i have (and not supposed to have) no control over what had happened befor the sequencing.
+
+
+
+
+

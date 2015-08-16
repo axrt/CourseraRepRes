@@ -186,7 +186,46 @@ img {
 ##  [1] magrittr_1.5    formatR_1.2     tools_3.2.1     htmltools_0.2.6
 ##  [5] yaml_2.1.13     stringi_0.5-5   rmarkdown_0.7   knitr_1.10.5   
 ##  [9] stringr_1.0.0   digest_0.6.8    evaluate_0.7</code></pre>
+<p><strong>More don’ts</strong>: do not save data analysis output (tables, figures, summaries, etc), or export temporary for caching purposes only</p>
+<ul>
+<li>If it is difficult to tell where the files are coming from, the research is not reproducible</li>
+<li>Save the data with the code that produced that data</li>
+<li>Temporary files are ok as long as they are clearly documented</li>
+</ul>
+<p><strong>More dos</strong>: it is improtant to set seeds</p>
+<ul>
+<li>Setting seeds makes the sequences of random numbers reproducible: <strong>always set seed!</strong></li>
+<li>Important for Monte Carlo and other simulations</li>
+</ul>
+<pre class="r"><code>set.seed(1000)
+runif(10)</code></pre>
+<pre><code>##  [1] 0.32787871 0.75884649 0.11393640 0.69075515 0.51640240 0.06773796
+##  [7] 0.73871486 0.58353505 0.21577140 0.25612240</code></pre>
+<p><strong>More dos</strong>: Try to think of the entire pipeline ahead</p>
+<ul>
+<li>Data analysis is a lengthy process</li>
+<li>Raw data -&gt; processed data -&gt; analysis -&gt; report</li>
+<li>How you got to the end is as important as the end itself</li>
+<li>The more of the pipeline you have reproducible, the better off is everyone</li>
+</ul>
 </div>
+</div>
+<div id="a-list-of-questions-to-ask-yourself" class="section level1">
+<h1>A list of questions to ask yourself:</h1>
+<ul>
+<li>Are you doing good science?</li>
+<li>Was any part of the analysis done by hand?
+<ul>
+<li>If so, were those parts <em>precisely documented</em>?</li>
+<li>Does the documentation match reality?</li>
+</ul></li>
+<li>Have you taught the computer to do as much as possible?</li>
+<li>Have we been using a version control system?</li>
+<li>Have we saved anything that can’t really be tracked back to where it came from?</li>
+<li>Have we documented the environment?</li>
+<li>How far back can we go before the analysis pipeline is no longer reproducible?</li>
+</ul>
+<p>Ideally fro me personally that would be going back to the sequencing machine output as i have (and not supposed to have) no control over what had happened befor the sequencing.</p>
 </div>
 
 
