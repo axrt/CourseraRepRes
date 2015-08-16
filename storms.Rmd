@@ -1,0 +1,72 @@
+---
+title: 'Storms //TODO: invent some title' smth causes the most damage according to NOAA
+output: html_document
+---
+
+####*Alex Tuzhikov, August 15 2015*
+
+##Quick preparation:
+Loading libraries:
+
+```{r loading libraries}
+if(!require("data.table")){
+  install.packages("data.table")
+  library("data.table")
+}
+if(!require("plyr")){
+  install.packages("plyr")
+  library("plyr")
+}
+if(!require("dplyr")){
+  install.packages("dplyr")
+  library("dplyr")
+}
+if(!require("tidyr")){
+  install.packages("tidyr")
+  library("tidyr")
+}
+if(!require("knitr")){
+  install.packages("knitr")
+  library("knitr")
+}
+if(!require("ggplot2")){
+  install.packages("ggplot2")
+  library("ggplot2")
+}
+if(!require("lubridate")){
+  install.packages("lubridate")
+  library("lubridate")
+}
+if(!require("R.utils")){
+  install.packages("R.utils")
+  library("R.utils")
+}
+```
+
+Setting options:
+
+```{r setoptions}
+opts_chunk$set(echo = TRUE,fig.width = 7, fig.height = 7)
+
+```
+
+##Data processing
+
+###Obtaining the data  
+```{r data download, cache=TRUE}
+#check if the file has alerady been downloaded
+storm.data<-"StormData"
+storm.data.csv<-paste0(storm.data,".csv")
+storm.data.bz<-paste0(storm.data.csv,".bz2")
+
+if(!file.exists(storm.data.bz)){
+  #download the file
+  download.file(url = "https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2", 
+                destfile=storm.data.bz, method = "curl")
+}
+#extract the data and select only the columns that may be valuable for this study
+noaa.data<- read.csv(file=storm.data.bz, header=TRUE, stringsAsFactors = FALSE) %>% 
+  select(STATE,COUNTYNAME,BGN_DATE,BGN_TIME,TIME_ZONE,EVTYPE,MAG,FATALITIES,INJURIES,PROPDMG,PROPDMGEXP,CROPDMG,CROPDMGEXP)
+```
+
+
