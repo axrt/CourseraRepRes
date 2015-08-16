@@ -77,5 +77,15 @@ Anything that is nessesserally done by hand with no other way to automatize shou
     * add changes in small chunks
     * track, tag etc
     * software like github and bitbucket allow for easy data communication
+- Keeping track of the software environment
+    * Computer architecture
+    * Operating system
+    * Software toolchain
+    * Support software
+    * External dependencies
+    * Version numbers
     
+```{r session info}
+sessionInfo()
+```
 
