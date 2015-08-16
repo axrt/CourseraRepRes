@@ -126,7 +126,40 @@ runif(10)
 
 Ideally fro me personally that would be going back to the sequencing machine output as i have (and not supposed to have) no control over what had happened befor the sequencing.
 
+#Evidence-based Data Analysis (part 1)
 
+##Replication and Reproducibility
+
+- Focuses ont the validity of the scientific claim
+- "Is the claim true?"
+- The ultimate standard for strengthening scientific evidence
+- New investigators, laboratories, instruments etc
+- Particularly important for studies that have broad effect on public opinion and government descisions
+
+###Reproducibility
+
+- Focuses on the validity of the data analysis
+- "Can we trust the analysis?"
+- Arguably a minimum standard for any scientific research
+- New investigators, some methods, some data
+- Very improtant when replication is impossible
+
+###Background and underlying trends
+
+- Many studies can not be reproduced: no time, no money, etc
+- Due to tech, data is more multidimensional and more complex
+- Existing databases can be merge to produce even bigger databases
+- Computing power is enough to go for more sophisticated analysis
+- For every field "X" there is a "Computational X"
+
+###The result
+
+- Even very basic analyses are difficult to describe
+- Heavy computatins are thrown at people with no sufficient statistical training
+- Errors are easy to introduce when the piplene analysis is long
+- Knowledge transfer is inhibited
+- Results are difficult to replicate and reproduce
+- Complicated analyses can not be fully trusted
 
 
 
