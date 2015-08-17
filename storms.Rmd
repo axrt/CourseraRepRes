@@ -89,4 +89,32 @@ Now, there is still an issue with the `PROPDMG` value (property damage). Current
 unique(noaa.data$PROPDMGEXP)
 ```
 
-and we can not use these values "as is", so some conversion is due here as well.
+and we can not use these values "as is", so some conversion is due here as well. I will assign a numeric value, which corresponds to some power of ten to each of the values:
+
+```{r PROPDMG PROPDMGEXP fix}
+#            "K" "M" ""  "B" "m" "+" "0" "5" "6" "?" "4" "2" "3" "h" "7" "H" "-" "1" "8"
+power.val<-c( 3,  6,  0,  9,  6,  0,  0,  5,  6,  0,  4,  2,  3,  0,  7,  2,  0,  1,  8)
+val.map<-mapvalues(x = noaa.data$PROPDMGEXP,
+          from=c("K","M","", "B","m","+","0","5","6","?","4","2","3","h","7","H","-","1","8"),
+          to=sapply(power.val,function(i){return(10^i)}))
+rm(power.val)
+noaa.data<- noaa.data %>% mutate(PROPDMG=PROPDMG*as.numeric(val.map)) %>% select(-c(PROPDMGEXP))
+rm(val.map)
+```
+
+Now, the same thing occurs with the `CROPDMG` and `CROPDMGEXP`:
+
+```{r CROPDMG CROPDMGEXP demo}
+unique(noaa.data$CROPDMGEXP)
+#           ""  "M" "K" "m" "B" "?" "0" "k" "2"
+power.val<-c(0,  6,  3,  6,  9,  1,  1,  3,  2)
+val.map<-mapvalues(x = noaa.data$CROPDMGEXP,
+          from=c("","M","K","m","B","?","0","k","2"),
+          to=sapply(power.val,function(i){return(10^i)}))
+rm(power.val)
+noaa.data<- noaa.data %>% mutate(CROPDMG=CROPDMG*as.numeric(val.map)) %>% select(-c(CROPDMGEXP))
+rm(val.map)
+```
+
+
+
