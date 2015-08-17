@@ -1,9 +1,9 @@
 ---
-title: 'Storms //TODO: invent some title smth causes the most damage according to NOAA'
+title: 'Tornados and Floods: Two Main Causes of Damage to Health and Ecnonomy of the United States, according to NOAA'
 output: html_document
 ---
 
-####*Alex Tuzhikov, August 15 2015*
+####*by Alex Tuzhikov, August 15 2015*
 
 ##Quick preparation:
 Loading libraries:
@@ -41,6 +41,30 @@ if(!require("R.utils")){
   install.packages("R.utils")
   library("R.utils")
 }
+if(!require("rgeos")){
+  install.packages("rgeos")
+  library("rgeos")
+}
+if(!require("rgdal")){
+  install.packages("rgdal")
+  library("rgdal")
+}
+if(!require("readr")){
+  install.packages("readr")
+  library("readr")
+}
+if(!require("maptools")){
+  install.packages("maptools")
+  library("maptools")
+}
+if(!require("mapproj")){
+  install.packages("mapproj")
+  library("mapproj")
+}
+if(!require("gridExtra")){
+  install.packages("gridExtra")
+  library("gridExtra")
+}
 ```
 
 Setting options:
@@ -49,6 +73,9 @@ Setting options:
 opts_chunk$set(echo = TRUE,fig.width = 7, fig.height = 7)
 
 ```
+
+#Synopsis
+some blablah goes here...
 
 ##Data processing
 
@@ -115,6 +142,149 @@ rm(power.val)
 noaa.data<- noaa.data %>% mutate(CROPDMG=CROPDMG*as.numeric(val.map)) %>% select(-c(CROPDMGEXP))
 rm(val.map)
 ```
+
+##Results
+
+Now that the data may be considered clean, let's try to answer the first question:  
+**Across the United States, which types of events are most harmful with respect to population health?**  
+To do so, let's do a quick summary:
+
+```{r summarize data}
+noaa.data.summary<- noaa.data %>% group_by(EVTYPE) %>% 
+  summarize(total.fatalities=sum(FATALITIES), total.injuries=sum(INJURIES), 
+            total.prop.dmg=sum(PROPDMG), total.crop.dmg=sum(CROPDMG)) %>%
+  arrange(-(total.fatalities+total.injuries+total.prop.dmg+total.crop.dmg))
+#quick summary
+head(noaa.data.summary)
+```
+
+Apparently, there is a lot of weather conditions that cause some damage, but only some have devastating effect. To comprehend the information it is best if we take just the top part of the list. The distribution of total damage, caused by the disasters, sorted descending shows that we can safely. For the future it makes sense to use just the top 10.
+
+Let's see which of the natural disasters affect health the most:
+
+```{r health, fig.width = 14}
+#let's assume total damage to the health of the popultaion to be a the total fatalities and injuries combined
+noaa.data.summary.health<- noaa.data.summary %>% mutate(total.health.dmg=total.fatalities+total.injuries) %>%
+  arrange(-total.health.dmg) %>% do({
+    .$EVTYPE<-factor(.$EVTYPE, levels=.$EVTYPE)
+    return(.[1:10,])
+  })
+#plot
+gp.health<-ggplot(data=noaa.data.summary.health, mapping=aes(x=EVTYPE, y=total.health.dmg))+geom_bar(stat="identity",fill="red") +
+  theme(axis.text.x=element_text(angle=90),legend.position="none",
+        strip.background=element_blank(),
+        plot.background=element_rect(fill = "white", colour = "white"),
+         panel.background = element_blank())+
+  ylab("Total Health Damage Cases")+xlab("Disaster Type")
+#map the events
+#get summary by state
+noaa.data.health.by.state<- noaa.data %>% group_by(STATE, EVTYPE) %>% 
+  summarize(total.health.dmg=sum(FATALITIES+INJURIES)) %>% filter(EVTYPE %in% noaa.data.summary.health$EVTYPE)
+#select only the top ones
+evtype<-c("TORNADO", "EXCESSIVE HEAT", "FLOOD", "LIGHTNING")
+noaa.data.health.by.state.plot<- noaa.data.health.by.state %>% 
+  filter(EVTYPE %in% evtype) %>% 
+  mutate(EVTYPE=factor(EVTYPE, levels = evtype))
+
+#prepare the hexagons
+us.states.geo<-"us_states_hexgrid.geojson"
+if(!file.exists(us.states.geo)){
+  download.file("https://gist.githubusercontent.com/hrbrmstr/51f961198f65509ad863/raw/219173f69979f663aa9192fbe3e115ebd357ca9f/us_states_hexgrid.geojson", 
+              us.states.geo, method = "curl")
+}
+state.hex<- readOGR(us.states.geo, "OGRGeoJSON")
+centers <- cbind.data.frame(data.frame(gCentroid(state.hex, byid=TRUE), id=state.hex@data$iso3166_2))
+#map to the US map
+us.map <- fortify(state.hex, region="iso3166_2")
+noaa.data.health.by.state.plot <- noaa.data.health.by.state.plot %>% filter(STATE %in% unique(us.map$id))
+#plot
+us.map.health.gp<-ggplot()+
+  geom_map(data=us.map, map=us.map, mapping=aes(x=long, y=lat, map_id=id), color="white", size=0.5)+
+  #now the actual layer
+  geom_map(data=noaa.data.health.by.state.plot, map=us.map,
+                    aes(fill=total.health.dmg, map_id=STATE))+
+  geom_map(data=noaa.data.health.by.state.plot, map=us.map, aes(map_id=STATE), fill="white", alpha=0, color="white", show_guide=FALSE)+
+  geom_text(data=centers, aes(label=id, x=x, y=y), color="white", size=3)+
+  scale_fill_distiller(name="Damages to Health\nand\nCasualties", palette="Reds", 
+                       na.value="white", labels=sprintf("%d%%", seq(0,100,25)))+
+  coord_map()+facet_wrap(~EVTYPE,nrow = 2)+
+  theme(panel.border=element_blank(),
+        plot.title=element_text(face="bold", size=24),
+        panel.grid=element_blank(),
+        axis.ticks=element_blank(),
+        axis.text=element_blank(),
+        strip.background=element_blank(),
+        plot.background=element_rect(fill = "white", colour = "white"),
+        strip.text=element_text(face="bold", hjust=0, size=14),
+        strip.background=element_rect(colour="white"),
+        legend.position="bottom",
+        panel.background = element_blank(),
+        legend.title.align=1)+
+  xlab("")+ylab("")
+
+grid.arrange(gp.health, us.map.health.gp, ncol=2,widths=c(1,3))
+```
+So, apparently, tornados keep harasing mid-west, while it can get really hot in Montana (surprising actually) and Texas is being flooded badly sometimes, Florida has lightning issues. Unfortunately, the most devastating disaster, tornado, is wastly spread according to the map and have the greates impact on the national health overall.
+
+That being said, let's see for the second question:  
+**Across the United States, which types of events have the greatest economic consequences?**
+
+To answer this question lets look at the damages to the property and crops.
+
+```{r economy, fig.width = 14}
+#first the summary to see which variables are we looking for
+noaa.data.summary.economy<- noaa.data.summary %>% mutate(total.econ.dmg=total.prop.dmg+total.crop.dmg) %>%
+  arrange(-total.econ.dmg) %>% do({
+    .$EVTYPE<-factor(.$EVTYPE, levels=.$EVTYPE)
+    return(.[1:10,])
+  })
+#most damagind factors
+evtype<-c("FLOOD", "HURRICANE/TYPHOON", "TORNADO", "STORM SURGE")
+#get summary by state
+noaa.data.economy.by.state<- noaa.data %>% group_by(STATE, EVTYPE) %>% 
+  summarize(total.econ.dmg=sum(PROPDMG+CROPDMG)) %>% filter(EVTYPE %in% noaa.data.summary.economy$EVTYPE)
+noaa.data.economy.by.state.plot<- noaa.data.economy.by.state %>% 
+  filter(EVTYPE %in% evtype) %>% 
+  mutate(EVTYPE=factor(EVTYPE, levels = evtype))
+#plot the damage level
+gp.economy<-ggplot(data=noaa.data.summary.economy, mapping=aes(x=EVTYPE, y=total.econ.dmg))+
+  geom_bar(stat="identity",fill="chartreuse4") +
+  theme(axis.text.x=element_text(angle=90),legend.position="none",
+        strip.background=element_blank(),
+        plot.background=element_rect(fill = "white", colour = "white"),
+         panel.background = element_blank())+
+  ylab("Total Economy Damage Cases")+xlab("Disaster Type")
+#plot maps
+us.map.economy.gp<-ggplot()+
+  geom_map(data=us.map, map=us.map, mapping=aes(x=long, y=lat, map_id=id), color="white", size=0.5)+
+  #now the actual layer
+  geom_map(data=noaa.data.economy.by.state.plot, map=us.map,
+                    aes(fill=total.econ.dmg, map_id=STATE))+
+  geom_map(data=noaa.data.economy.by.state.plot, map=us.map, aes(map_id=STATE), fill="white", alpha=0, color="white", show_guide=FALSE)+
+  geom_text(data=centers, aes(label=id, x=x, y=y), color="white", size=3)+
+  scale_fill_distiller(name="Damages to Property\nand\nEconomy", palette="Greens", 
+                       na.value="white", labels=sprintf("%d%%", seq(0,100,25)))+
+  coord_map()+facet_wrap(~EVTYPE,nrow = 2)+
+  theme(panel.border=element_blank(),
+        plot.title=element_text(face="bold", size=24),
+        panel.grid=element_blank(),
+        axis.ticks=element_blank(),
+        axis.text=element_blank(),
+        strip.background=element_blank(),
+        plot.background=element_rect(fill = "white", colour = "white"),
+        strip.text=element_text(face="bold", hjust=0, size=14),
+        strip.background=element_rect(colour="white"),
+        legend.position="bottom",
+        panel.background = element_blank(),
+        legend.title.align=1)+
+  xlab("")+ylab("")
+
+grid.arrange(gp.economy, us.map.economy.gp, ncol=2,widths=c(1,3))
+```
+
+According to the plot above, the most damaging to the US economy are floods and typhoons, that are mainly occuring in California and Florida respectively.
+
+
 
 
 
