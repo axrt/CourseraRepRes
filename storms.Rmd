@@ -1,5 +1,5 @@
 ---
-title: 'Storms //TODO: invent some title' smth causes the most damage according to NOAA
+title: 'Storms //TODO: invent some title smth causes the most damage according to NOAA'
 output: html_document
 ---
 
@@ -53,6 +53,7 @@ opts_chunk$set(echo = TRUE,fig.width = 7, fig.height = 7)
 ##Data processing
 
 ###Obtaining the data  
+
 ```{r data download, cache=TRUE}
 #check if the file has alerady been downloaded
 storm.data<-"StormData"
@@ -66,7 +67,26 @@ if(!file.exists(storm.data.bz)){
 }
 #extract the data and select only the columns that may be valuable for this study
 noaa.data<- read.csv(file=storm.data.bz, header=TRUE, stringsAsFactors = FALSE) %>% 
-  select(STATE,COUNTYNAME,BGN_DATE,BGN_TIME,TIME_ZONE,EVTYPE,MAG,FATALITIES,INJURIES,PROPDMG,PROPDMGEXP,CROPDMG,CROPDMGEXP)
+  select(STATE,COUNTYNAME,BGN_DATE,EVTYPE,MAG,FATALITIES,INJURIES,PROPDMG,PROPDMGEXP,CROPDMG,CROPDMGEXP)
 ```
 
+Apparently, some of the data need to get tidy. See below:
 
+```{r}
+head(noaa.data)
+```
+
+Here `BGN_DATE` should probably be of a more appropriate class, that represents a date.
+
+```{r cleaning dates}
+#simply convert the dates and get rid of the old BGN_DATE column
+noaa.data <- noaa.data %>% mutate(EVENT_DATE=mdy_hms(BGN_DATE)) %>% select(-c(BGN_DATE))
+```
+
+Now, there is still an issue with the `PROPDMG` value (property damage). Currently,
+
+```{r PROPDMG PROPDMGEXP demo}
+unique(noaa.data$PROPDMGEXP)
+```
+
+and we can not use these values "as is", so some conversion is due here as well.
