@@ -65,6 +65,10 @@ if(!require("gridExtra")){
   install.packages("gridExtra")
   library("gridExtra")
 }
+if(!require("scales")){
+  install.packages("scales")
+  library("scales")
+}
 ```
 
 Setting options:
@@ -97,6 +101,7 @@ noaa.data<- read.csv(file=storm.data.bz, header=TRUE, stringsAsFactors = FALSE) 
   select(STATE,COUNTYNAME,BGN_DATE,EVTYPE,MAG,FATALITIES,INJURIES,PROPDMG,PROPDMGEXP,CROPDMG,CROPDMGEXP)
 ```
 
+###Cleaning the data  
 Apparently, some of the data need to get tidy. See below:
 
 ```{r}
@@ -284,7 +289,41 @@ grid.arrange(gp.economy, us.map.economy.gp, ncol=2,widths=c(1,3))
 
 According to the plot above, the most damaging to the US economy are floods and typhoons, that are mainly occuring in California and Florida respectively.
 
+As we have space for one more allowed plot, let's see if the weather is getting more volotile over time in the it's most devastaing manifestations.
 
+```{r wather volotility, fig.height=7, fig.width = 14}
+#get only the worst disaster's data
+evtype<-c("TORNADO", "EXCESSIVE HEAT", "FLOOD", "LIGHTNING", "HURRICANE/TYPHOON", "STORM SURGE")
+#let's bring the rather uncomparable values to one scale - [0,1]
+noaa.data.time.summary<- noaa.data %>% group_by(EVENT_DATE) %>% 
+            filter(EVTYPE %in% evtype) %>%
+  mutate(FATALITIES= rescale(FATALITIES,from =c(0,max(FATALITIES)),to = c(0,1)),
+         INJURIES= rescale(INJURIES,from =c(0,max(INJURIES)),to = c(0,1)),
+         PROPDMG= rescale(PROPDMG,from =c(0,max(PROPDMG)),to = c(0,1)),
+         CROPDMG= rescale(CROPDMG,from =c(0,max(CROPDMG)),to = c(0,1))) %>%
+  group_by(EVENT_DATE,EVTYPE) %>%
+  summarize(mean.fatalities=mean(FATALITIES), mean.injuries=mean(INJURIES), 
+            mean.propdmg=mean(PROPDMG), mean.cropdmg=mean(CROPDMG), magnitude=mean(MAG))
+#plot
+damage.gp<-ggplot(data=noaa.data.time.summary, mapping=aes(x=EVENT_DATE, y=mean.fatalities+mean.injuries+mean.propdmg+mean.cropdmg, group=EVTYPE, color=EVTYPE))+
+  geom_smooth(method="loess", fill="steelblue", alpha=0.3)+ylab("Total Damage")+xlab("Date")+
+  theme(plot.background=element_rect(fill = "white", colour = "white"),
+        strip.text=element_text(face="bold", hjust=0, size=14),
+        strip.background=element_rect(colour="white"),
+        panel.background = element_blank(),
+        legend.position="none")
 
+magnitute.gp<-ggplot(data=noaa.data.time.summary, mapping=aes(x=EVENT_DATE, y=magnitude, group=EVTYPE, color=EVTYPE))+
+  geom_smooth(method="loess", fill="steelblue", alpha=0.3)+ylab("Magnitude")+xlab("Date")+
+  theme(plot.background=element_rect(fill = "white", colour = "white"),
+        strip.text=element_text(face="bold", hjust=0, size=14),
+        strip.background=element_rect(colour="white"),
+        panel.background = element_blank(),
+        legend.position="bottom",
+        legend.key=element_rect(colour = "white"))+
+  labs(colour="Disaster")
 
+grid.arrange(damage.gp, magnitute.gp, nrow=2)
+```
 
+Surprisingly, even though the magnitude for some (namely `STORM SURGE`) dropped over the years on average, the damage it causes seens to not have been affected and even rise. I sepculate that this might be a result of lowered vigilance while the infrastructure of the regions has been developing rapidly.
