@@ -79,7 +79,7 @@ opts_chunk$set(echo = TRUE,fig.width = 7, fig.height = 7)
 ```
 
 #Synopsis
-Weather conditions are an important factor, which must be accounted for in any particular region nationwide. Severe weather, such as tornados, floods, draughts and lightning cause injuries or death among the populatin and might have a strong impact on the economic well-being of the region by causing damage to property, crop and infrastructure of the region. Therefore, it is imperative, that statistics over previous severe weather conditions are properly conduted and studied in order to raise awareness, minimize the malignant consequences and adjust budgets to ceratian expectaions of disasters in any particular region. Here we study a more than 60 years of natural disaster observations across the United States.
+Weather conditions are an important factor, which must be accounted for in any particular region nationwide. Severe weather, such as tornados, floods, draughts and lightning cause injuries or death among the populatin and might have a strong impact on the economic well-being of the region by causing damage to property, crop and infrastructure of the region. Therefore, it is imperative, that statistics over previous severe weather conditions are properly conduted and studied in order to raise awareness, minimize the malignant consequences and adjust budgets to ceratian expectaions of disasters in any particular region. Here we study a more than 60 years of natural disaster observations across the United States in order to show that tornados and floods may be considered as a leading cause of damage to public health and property, and vary across the United States.
 
 ##Data processing
 
