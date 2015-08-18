@@ -163,7 +163,7 @@ noaa.data.summary<- noaa.data %>% group_by(EVTYPE) %>%
 head(noaa.data.summary)
 ```
 
-Apparently, there is a lot of weather conditions that cause some damage, but only some have devastating effect. To comprehend the information it is best if we take just the top part of the list. The distribution of total damage, caused by the disasters, sorted descending shows that we can safely. For the future it makes sense to use just the top 10.
+Apparently, there is a lot of weather conditions that cause damage health and property to a certain extent, but only some have a devastating effect. To comprehend the information it is best to take just the top part of the list. The distribution of total damage, caused by the disasters, sorted descending, shows that we can safely use the top 10 severe weather conditions as they have the most impact.
 
 Let's see which of the natural disasters affect health the most:
 
