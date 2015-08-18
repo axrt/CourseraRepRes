@@ -1,5 +1,5 @@
 ---
-title: 'Tornados and Floods: Two Main Causes of Damage to Health and Ecnonomy of the United States, according to the 60+ years of NOAA observations'
+title: 'Tornados and Floods: Two Main Causes of Damage to Health and Ecnonomy of the United States, according to the 60+ years observations by NOAA'
 output: html_document
 ---
 
